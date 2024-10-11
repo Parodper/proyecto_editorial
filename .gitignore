@@ -162,8 +162,8 @@ cython_debug/
 #.idea/
 
 # venv
-.Lib/
-.scrapy/
-.Scripts/
-./Include
+Lib/
+scrapy/
+Scripts/
+Include/
 .pyvenv.cfg
