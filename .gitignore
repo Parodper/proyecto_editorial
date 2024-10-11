@@ -166,4 +166,5 @@ Lib/
 scrapy/
 Scripts/
 Include/
-.pyvenv.cfg
+pyvenv.cfg
+.vscode
