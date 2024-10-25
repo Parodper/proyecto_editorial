@@ -6,8 +6,10 @@
 import scrapy
 
 
-class MessageItem(scrapy.Item):
-    link = scrapy.Field()
+class BookItem(scrapy.Item):
+    title = scrapy.Field()
     author = scrapy.Field()
-    content = scrapy.Field()
-    date = scrapy.Field()
+    synopsis = scrapy.Field()
+    category = scrapy.Field()
+    isbn = scrapy.Field()
+    publication_date = scrapy.Field()
