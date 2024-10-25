@@ -7,6 +7,7 @@ import scrapy
 
 
 class BookItem(scrapy.Item):
+    link = scrapy.Field()
     title = scrapy.Field()
     author = scrapy.Field()
     synopsis = scrapy.Field()
