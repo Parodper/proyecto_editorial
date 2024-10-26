@@ -5,9 +5,11 @@ import re
 
 class PlanetaSpider(scrapy.Spider):
     name = "planeta"
-
+    BASE_URL = "https://www.casadellibro.com"
+    lastURL = ""
+        
     start_urls = [
-        "https://www.casadellibro.com/"
+        "https://www.casadellibro.com/libros"
     ]
 
     def parse_book(self, response) -> BookItem:
@@ -23,16 +25,48 @@ class PlanetaSpider(scrapy.Spider):
         book['category'] = [x.get().strip() for x in response.css(".breadcrumbs").css("li").css("a::text")][1:]
         book['isbn'] = isbn
         book['publication_date'] = response.xpath('//meta[@property="book:release_date"]/@content').get()
-        return book
+
+        # Aquí devolvemos el item
+        yield book
+
+    def bookWasSeen(self, url):
+        if self.lastURL == url:
+            return True
+        else:
+            self.lastURL = url
+            return False
+
+    def isABook(self, url):
+        return url.startswith("/libro-") and not url.endswith("PanelFormatos")
+
+    def parseTematica(self, tematicaURL):
+        print(tematicaURL)
+        for bookRef in tematicaURL.css("div.results").css("div.products").css("a::attr(href)").getall():
+            print(bookRef)
+
+            if (not self.isABook(bookRef) or self.bookWasSeen(bookRef)):
+                continue
+
+            next_page = self.BASE_URL + bookRef
+            page = scrapy.Request(next_page, callback=self.parse_book)
+            if page is None:
+                yield scrapy.Request(next_page, callback=self.parse)
+            else:
+                yield page
 
     def parse(self, response):
-        match_book_url = re.compile("^/libro.*")
-        for book in response.css("a::attr(href)"):
-            url = book.get()
-            if match_book_url.match(url) is not None:
-                next_page = response.urljoin(url)
-                page = scrapy.Request(next_page, callback=self.parse_book)
-                if page is None:
-                    yield scrapy.Request(next_page, callback=self.parse)
-                else:
-                    yield page
+        startsIn = 6
+        counter = 0
+        for themeREF in response.css("div.tematicas").css("a.accent-text::attr(href)").getall():
+            if (counter < startsIn):
+                counter = counter + 1
+                continue
+
+            #print(themeREF)
+            themeURL = response.urljoin(themeREF)
+            #self.parseTematica(themeREF)
+            yield scrapy.Request(themeURL, callback=self.parseTematica)
+
+
+# Tematica string: response.css("div.tematicas").css("a.accent-text::text").getall()
+# response.css("div.results").css("div.products").css("a::attr(href)")[8].get()
