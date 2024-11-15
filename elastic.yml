@@ -1,10 +1,7 @@
 services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.15.1
-    environment:
-      - discovery.type=single-node
-      - xpack.security.http.ssl.enabled=false
-      - xpack.license.self_generated.type=trial
-      - ELASTIC_PASSWORD=E
+    volumes:
+      - ./elastic/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
       - 127.0.0.1:9200:9200
