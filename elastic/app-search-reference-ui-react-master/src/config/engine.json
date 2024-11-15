@@ -1,0 +1,16 @@
+{
+  "endpointBase": "http://localhost:9200",
+  "engineName": "libros",
+  "searchKey": "search-nyxkw1fuqex9qjhfvatbqfmw",
+  "searchFields": ["title", "description"],
+  "resultFields": [
+    "title",
+    "description",
+    "isbn"
+  ],
+  "querySuggestFields": ["title"],
+  "titleField": "title",
+  "urlField": "link",
+  "sortFields": ["title"],
+  "facets": []
+}
