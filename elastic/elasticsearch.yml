@@ -2,3 +2,5 @@ xpack.security.http.ssl.enabled: false
 xpack.license.self_generated.type: trial
 xpack.security.enrollment.enabled: false
 xpack.security.enabled: false
+network.bind_host: 0.0.0.0
+discovery.type: single-node
