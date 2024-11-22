@@ -26,17 +26,40 @@ import {
   getFacetFields
 } from "./config/config-helper";
 
-const { hostIdentifier, searchKey, endpointBase, engineName } = getConfig();
-const connector = new ElasticsearchAPIConnector({host: endpointBase, index: engineName });
+//const { hostIdentifier, searchKey, endpointBase, engineName } = getConfig();
+//const connector = new ElasticsearchAPIConnector("http://localhost:9200", "libros");
+const connector = new ElasticsearchAPIConnector({
+  host: "http://localhost:9200", // Reemplaza con la URL de tu servidor Elasticsearch
+  index: "libros",      // Reemplaza con el nombre de tu índice
+});
+
+// Campos clave del índice
+const titleField = "title";
+const urlField = "link";
+const facetFields = ["author", "category"]; // Campos a mostrar como facetas
+
 const config = {
   searchQuery: {
-    facets: buildFacetConfigFromConfig(),
-    ...buildSearchOptionsFromConfig()
+    facets: {
+      author: { type: "value" },
+      category: { type: "value" }
+    },
+    search_fields: {
+      title: {},
+      synopsis: {},
+      author: {}
+    },
+    result_fields: {
+      title: { raw: {} },
+      link: { raw: {} },
+      synopsis: { raw: {} },
+      category: { raw: {} }
+    }
   },
-  autocompleteQuery: buildAutocompleteQueryConfig(),
   apiConnector: connector,
   alwaysSearchOnInitialLoad: true
 };
+
 
 export default function App() {
   return (
@@ -47,25 +70,27 @@ export default function App() {
             <div className="App">
               <ErrorBoundary>
                 <Layout
-                  header={<SearchBox autocompleteSuggestions={false} />}
+                  header={<SearchBox autocompleteSuggestions={true} />}
                   sideContent={
                     <div>
                       {wasSearched && (
                         <Sorting
                           label={"Sort by"}
-                          sortOptions={buildSortOptionsFromConfig()}
+                          sortOptions={[
+                            { name: "Relevance", value: "", direction: "" },
+                            { name: "Title (A-Z)", value: "title", direction: "asc" }
+                          ]}
                         />
                       )}
-                      {getFacetFields().map(field => (
+                      {facetFields.map((field) => (
                         <Facet key={field} field={field} label={field} />
                       ))}
                     </div>
                   }
                   bodyContent={
                     <Results
-                      titleField={getConfig().titleField}
-                      urlField={getConfig().urlField}
-                      thumbnailField={getConfig().thumbnailField}
+                      titleField={titleField}
+                      urlField={urlField}
                       shouldTrackClickThrough={true}
                     />
                   }

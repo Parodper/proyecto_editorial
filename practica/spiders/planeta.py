@@ -70,3 +70,12 @@ class PlanetaSpider(scrapy.Spider):
 
 # Tematica string: response.css("div.tematicas").css("a.accent-text::text").getall()
 # response.css("div.results").css("div.products").css("a::attr(href)")[8].get()
+
+# Memoria
+# Tecnologias usadas (Python elastic...)
+# Crawling que es, que se crawleo
+# Web: Como se ve
+# Funcionalidades
+# Alguna captura
+# Sencillo todo
+# Casos de uso
