@@ -31,7 +31,7 @@ es.indices.create(index=index_name, body=mapping)
 print(f'Índice {index_name} creado')
 
 n = 1
-with open('./output.json', 'r', encoding='utf-8') as f:
+with open('../practica/data/output.json', 'r', encoding='utf-8') as f:
 	d = json.loads(f.read())
 	for doc in d:
 		es.index(index=index_name, id=n, body=doc)
