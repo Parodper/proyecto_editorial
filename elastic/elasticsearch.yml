@@ -4,3 +4,9 @@ xpack.security.enrollment.enabled: false
 xpack.security.enabled: false
 network.bind_host: 0.0.0.0
 discovery.type: single-node
+
+# Needed for React and browser petitions
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+http.cors.allow-headers: X-Requested-With, X-Auth-Token, Content-Type, Content-Length, Authorization, Access-Control-Allow-Headers, Accept, x-elastic-client-meta
+http.cors.allow-methods: "OPTIONS, HEAD, GET, POST, PUT, DELETE"
