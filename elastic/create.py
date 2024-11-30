@@ -13,11 +13,21 @@ mapping = {
 			"link": {"type": "text"},
 			"title_completion": {"type": "completion", "analyzer": "autocomplete", "search_analyzer": "standard"},
 			"title": {"type": "text"},
-			"author": {"type": "text"},
+			"author": {"type": "keyword"},
 			"synopsis": {"type": "text"},
-			"category": {"type": "text"},
+			"category": {
+                "type": "text",
+                "fields": {
+                     "keyword": {
+                          "type": "keyword"
+					 }
+				}
+            },
 			"isbn": {"type": "text"},
-			"publication_date": {"type": "text"}
+			"publication_date": {
+				"type": "date",
+				"format": "yyyy-MM-dd"
+			}
 		}
 	},
 	"settings": {

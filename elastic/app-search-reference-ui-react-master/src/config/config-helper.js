@@ -165,16 +165,31 @@ export function buildSearchOptionsFromConfig() {
 export function buildFacetConfigFromConfig() {
   const config = getConfig();
 
-  const facets = (config.facets || []).reduce((acc, n) => {
+  /*const facets = (config.facets || []).reduce((acc, n) => {
     acc = acc || {};
     acc[n] = {
       type: "value",
       size: 100
     };
     return acc;
-  }, undefined);
+  }, undefined);*/
 
-  return facets;
+  const facets = {
+    "category.keyword": { type: "value", size: 100 },
+    "author": { type: "value", size: 100 },
+    "publication_date": { type: "range", ranges: [
+      { from: "2000-01-01", to: "2010-12-31", name: "2000-2010" },
+      { from: "2011-01-01", to: "2020-12-31", name: "2011-2020" },
+      { from: "2021-01-01", to: "2024-12-31", name: "2021-2024" }
+    ]}
+  };
+
+  const disjunctiveFacets = ["author"];
+
+  return {
+    facets,
+    disjunctiveFacets
+  };
 }
 
 export function buildSortOptionsFromConfig() {
@@ -190,6 +205,11 @@ export function buildSortOptionsFromConfig() {
         name: `${capitalizeFirstLetter(sortField)} ASC`,
         value: sortField,
         direction: "asc"
+      });
+      acc.push({
+        name: `${capitalizeFirstLetter(sortField)} DESC`,
+        value: sortField,
+        direction: "desc"
       });
       acc.push({
         name: `${capitalizeFirstLetter(sortField)} DESC`,

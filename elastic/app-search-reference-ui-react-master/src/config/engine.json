@@ -7,11 +7,12 @@
     "title",
     "synopsis",
     "isbn",
-    "author"
+    "author",
+    "category"
   ],
   "querySuggestFields": ["title_completion"],
   "titleField": "title",
   "urlField": "link",
-  "sortFields": ["title"],
-  "facets": []
+  "sortFields": [],
+  "facets": ["category.keyword, publication_date, author"]
 }

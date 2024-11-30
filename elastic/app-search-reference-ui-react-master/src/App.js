@@ -29,7 +29,8 @@ const { hostIdentifier, searchKey, endpointBase, engineName } = getConfig();
 const connector = new ElasticsearchAPIConnector({host: endpointBase, index: engineName });
 const config = {
   searchQuery: {
-    facets: buildFacetConfigFromConfig(),
+    facets: buildFacetConfigFromConfig().facets,
+    disjunctiveFacets: buildFacetConfigFromConfig().disjunctiveFacets,
     ...buildSearchOptionsFromConfig(),
   },
   autocompleteQuery: buildAutocompleteQueryConfig(),
@@ -55,9 +56,11 @@ export default function App() {
                           sortOptions={buildSortOptionsFromConfig()}
                         />
                       )}
-                      {getFacetFields().map((field) => (
-                        <Facet key={field} field={field} label={field} />
-                      ))}
+
+                      <Facet key={"category"} field={"category.keyword"} label={"category"} />
+                      <Facet key={"publication_date"} field={"publication_date"} label={"Publication date"} />
+                      <Facet key={"author"} field={"author"} label={"Author"} />
+
                     </div>
                   }
                   bodyContent={
@@ -89,6 +92,8 @@ export default function App() {
                               
                               <p></p>
                               {result.author.raw}
+                              <p></p>
+                              {result.category.raw}
                               <p></p>
                               {result.synopsis.raw}
                             </div>
