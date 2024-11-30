@@ -38,6 +38,7 @@ const config = {
   alwaysSearchOnInitialLoad: true
 };
 
+
 export default function App() {
   return (
     <SearchProvider config={config}>
@@ -57,9 +58,9 @@ export default function App() {
                         />
                       )}
 
-                      <Facet key={"category"} field={"category.keyword"} label={"category"} />
-                      <Facet key={"publication_date"} field={"publication_date"} label={"Publication date"} />
-                      <Facet key={"author"} field={"author"} label={"Author"} />
+                      <Facet key={"category"} field={"category.keyword"} label={"category"} isFilterable={true} />
+                      <Facet key={"publication_date"} field={"publication_date"} label={"Publication date"}/>
+                      <Facet key={"author"} field={"author"} label={"Author"} isFilterable={true} />
 
                     </div>
                   }
