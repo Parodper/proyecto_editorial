@@ -2,7 +2,7 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.15.1
     volumes:
-      - .\elastic\elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./elastic/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - elasticdata:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
@@ -16,5 +16,5 @@ services:
     privileged: true  # Habilitar permisos elevados
 volumes:
   elasticdata:
-  
+
 
