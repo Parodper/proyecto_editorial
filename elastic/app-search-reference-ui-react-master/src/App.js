@@ -7,7 +7,6 @@ import {
   Facet,
   SearchProvider,
   SearchBox,
-  Results,
   PagingInfo,
   ResultsPerPage,
   Paging,
@@ -31,7 +30,7 @@ const connector = new ElasticsearchAPIConnector({host: endpointBase, index: engi
 const config = {
   searchQuery: {
     facets: buildFacetConfigFromConfig(),
-    ...buildSearchOptionsFromConfig()
+    ...buildSearchOptionsFromConfig(),
   },
   autocompleteQuery: buildAutocompleteQueryConfig(),
   apiConnector: connector,
@@ -47,7 +46,7 @@ export default function App() {
             <div className="App">
               <ErrorBoundary>
                 <Layout
-                  header={<SearchBox autocompleteSuggestions={false} />}
+                  header={<SearchBox autocompleteSuggestions={true} />}
                   sideContent={
                     <div>
                       {wasSearched && (
@@ -56,18 +55,47 @@ export default function App() {
                           sortOptions={buildSortOptionsFromConfig()}
                         />
                       )}
-                      {getFacetFields().map(field => (
+                      {getFacetFields().map((field) => (
                         <Facet key={field} field={field} label={field} />
                       ))}
                     </div>
                   }
                   bodyContent={
-                    <Results
-                      titleField={getConfig().titleField}
-                      urlField={getConfig().urlField}
-                      thumbnailField={getConfig().thumbnailField}
-                      shouldTrackClickThrough={true}
-                    />
+                    <WithSearch mapContextToProps={({ results }) => ({ results })}>
+                      {({ results }) => (
+                        <div>
+                          {results.map((result, index) => (
+                            <div key={index}
+                            style={{
+                              border: "1px solid #ddd",
+                              padding: "10px",
+                              marginBottom: "10px",
+                              borderRadius: "5px",
+                              backgroundColor: "#f9f9f9",
+                              boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
+                            }}
+                            >
+                              <a
+                                href={result.link.raw || result.link}
+                                style={{
+                                  textDecoration: "none", // Quita el subrayado
+                                  color: "#0073e6",       // Cambia el color del enlace (opcional)
+                                }}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {result.title.raw}
+                              </a>
+                              
+                              <p></p>
+                              {result.author.raw}
+                              <p></p>
+                              {result.synopsis.raw}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </WithSearch>
                   }
                   bodyHeader={
                     <React.Fragment>

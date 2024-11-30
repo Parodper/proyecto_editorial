@@ -86,14 +86,28 @@ export function stripUnnecessaryResultFields(resultFields) {
 
 export function buildSearchOptionsFromConfig() {
   const config = getConfig();
-  const searchFields = (config.searchFields || config.fields || []).reduce(
+  /*const searchFields = (config.searchFields || config.fields || []).reduce(
     (acc, n) => {
       acc = acc || {};
+      
       acc[n] = {};
+  
       return acc;
     },
     undefined
-  );
+  );*/
+
+  const searchFields = {
+    title: {
+      weight: 6
+    },
+    author: {
+      weight: 2
+    },
+    synopsis: {
+      weight: 1
+    }
+  }
 
   const resultFields = (config.resultFields || config.fields || []).reduce(
     (acc, n) => {

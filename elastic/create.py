@@ -11,12 +11,23 @@ mapping = {
 	"mappings": {
 		"properties": {
 			"link": {"type": "text"},
+			"title_completion": {"type": "completion", "analyzer": "autocomplete", "search_analyzer": "standard"},
 			"title": {"type": "text"},
 			"author": {"type": "text"},
 			"synopsis": {"type": "text"},
 			"category": {"type": "text"},
 			"isbn": {"type": "text"},
 			"publication_date": {"type": "text"}
+		}
+	},
+	"settings": {
+		"analysis": {
+		"analyzer": {
+			"autocomplete": {
+			"tokenizer": "standard",
+			"filter": ["lowercase"]
+			}
+		}
 		}
 	}
 }
@@ -31,10 +42,12 @@ es.indices.create(index=index_name, body=mapping)
 print(f'Índice {index_name} creado')
 
 n = 1
-with open('../practica/data/output.json', 'r', encoding='utf-8') as f:
-	d = json.loads(f.read())
-	for doc in d:
-		es.index(index=index_name, id=n, body=doc)
-		n += 1
+with open('./practica/data/output.json', 'r', encoding='utf-8') as f:
+    d = json.loads(f.read())
+    for doc in d:
+        if 'title' in doc:
+            doc['title_completion'] = doc['title']
+        es.index(index=index_name, id=n, body=doc)
+        n += 1
 
 print(f'Loaded {n} files')
