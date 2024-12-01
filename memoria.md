@@ -1,4 +1,10 @@
-# Búsqueda en Planeta de Libros
+# Práctica RIWS
+
+# Contribuyentes
+
+- Juan Villaverde Rodríguez: juan.villaverde.rodriguez@udc.es
+
+
 
 ## Búsqueda del dominio y crawling web
 
@@ -14,6 +20,21 @@ Este archivo JSON después se introduce en ElasticSearch usando el código de `e
 
 La interfaz web en Typescript se conecta a la instancia de ElasticSearch para permitir buscar. A partir del código de ejemplo, se ha modificado para darle un mejor aspecto a la búsqueda.
 
+## Funcionalides implementadas
+### Configuración inicial
+
+Para el desarrollo del frontend hemos partido de la base de la App Starter de Search UI. Para ello, primero ha sido necesario descargarla en la carpeta del proyecto desde GitHub mediante el comando
+
+`curl https://codeload.github.com/elasticapp-search-reference-ui-react/tar.gz/master |tar -xz`
+
+Para configurarla, desde la carpeta descargada, se instalaron las dependencias mediante el comando `yarn` y posteriormente la libreria para conectarse con Elasticsearch, mediante 
+`yarn add @elastic/search-ui-elasticsearch-connector`
+
+Una vez todas las dependencias fueron instaladas
+
+
+
 ## Tecnologías usadas
 
 Para la parte del _crawler_ se usa Python y Scrapy. De aquí se saca un archivo en JSON que se le pasa a Elastic, basado en Java. La interfaz web está escrita en Typescript. La interface y Elastic se levantan con Docker.
+

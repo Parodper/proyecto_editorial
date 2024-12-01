@@ -9,7 +9,8 @@
     "isbn",
     "author",
     "category",
-    "image"
+    "image",
+    "publication_date"
   ],
   "querySuggestFields": ["title_completion"],
   "titleField": "title",

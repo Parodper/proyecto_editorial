@@ -6,13 +6,5 @@ services:
       - elasticdata:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
-  app:
-    build:
-      context: elastic
-    ports:
-      - 3000:3000
-    depends_on:
-      - elasticsearch
-    privileged: true  # Habilitar permisos elevados
 volumes:
   elasticdata:
