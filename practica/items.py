@@ -14,3 +14,4 @@ class BookItem(scrapy.Item):
     category = scrapy.Field()
     isbn = scrapy.Field()
     publication_date = scrapy.Field()
+    image = scrapy.Field()

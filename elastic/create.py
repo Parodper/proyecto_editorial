@@ -13,8 +13,16 @@ mapping = {
 			"link": {"type": "text"},
 			"title_completion": {"type": "completion", "analyzer": "autocomplete", "search_analyzer": "standard"},
 			"title": {"type": "text"},
-			"author": {"type": "keyword"},
 			"synopsis": {"type": "text"},
+			"image": {"type": "text"},
+			"author": {
+                "type": "text",
+                "fields": {
+                     "keyword": {
+                          "type": "keyword"
+					 }
+				}
+            },
 			"category": {
                 "type": "text",
                 "fields": {

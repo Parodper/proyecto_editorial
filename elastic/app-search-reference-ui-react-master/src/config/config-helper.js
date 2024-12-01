@@ -107,7 +107,7 @@ export function buildSearchOptionsFromConfig() {
     synopsis: {
       weight: 1
     }
-  }
+  };
 
   const resultFields = (config.resultFields || config.fields || []).reduce(
     (acc, n) => {
@@ -176,7 +176,7 @@ export function buildFacetConfigFromConfig() {
 
   const facets = {
     "category.keyword": { type: "value", size: 100 },
-    "author": { type: "value", size: 500 },
+    "author.keyword": { type: "value", size: 500 },
     "publication_date": { type: "range", ranges: [
       { from: "2000-01-01", to: "2010-12-31", name: "2000-2010" },
       { from: "2011-01-01", to: "2020-12-31", name: "2011-2020" },
@@ -184,7 +184,7 @@ export function buildFacetConfigFromConfig() {
     ]}
   };
 
-  const disjunctiveFacets = ["author"];
+  const disjunctiveFacets = ["author.keyword"];
 
   return {
     facets,

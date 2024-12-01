@@ -38,7 +38,6 @@ const config = {
   alwaysSearchOnInitialLoad: true
 };
 
-
 export default function App() {
   return (
     <SearchProvider config={config}>
@@ -51,16 +50,9 @@ export default function App() {
                   header={<SearchBox autocompleteSuggestions={true} />}
                   sideContent={
                     <div>
-                      {wasSearched && (
-                        <Sorting
-                          label={"Sort by"}
-                          sortOptions={buildSortOptionsFromConfig()}
-                        />
-                      )}
-
                       <Facet key={"category"} field={"category.keyword"} label={"category"} isFilterable={true} />
                       <Facet key={"publication_date"} field={"publication_date"} label={"Publication date"}/>
-                      <Facet key={"author"} field={"author"} label={"Author"} isFilterable={true} />
+                      <Facet key={"author"} field={"author.keyword"} label={"Author"} isFilterable={true} />
 
                     </div>
                   }
@@ -69,34 +61,72 @@ export default function App() {
                       {({ results }) => (
                         <div>
                           {results.map((result, index) => (
-                            <div key={index}
-                            style={{
-                              border: "1px solid #ddd",
-                              padding: "10px",
-                              marginBottom: "10px",
-                              borderRadius: "5px",
-                              backgroundColor: "#f9f9f9",
-                              boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
-                            }}
+                            <div
+                              key={index}
+                              style={{
+                                display: "flex", 
+                                alignItems: "flex-start", 
+                                border: "1px solid #ddd",
+                                padding: "10px",
+                                marginBottom: "10px",
+                                borderRadius: "5px",
+                                backgroundColor: "#f9f9f9",
+                                boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
+                              }}
                             >
-                              <a
-                                href={result.link.raw || result.link}
-                                style={{
-                                  textDecoration: "none", // Quita el subrayado
-                                  color: "#0073e6",       // Cambia el color del enlace (opcional)
-                                }}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {result.title.raw}
-                              </a>
-                              
-                              <p></p>
-                              {result.author.raw}
-                              <p></p>
-                              {result.category.raw}
-                              <p></p>
-                              {result.synopsis.raw}
+                              {/* Imagen */}
+                              {result.image?.raw && (
+                                <img
+                                  src={result.image.raw} 
+                                  alt={result.title?.raw || "Imagen del libro"} 
+                                  style={{
+                                    width: "180px", 
+                                    height: "auto", 
+                                    borderRadius: "5px", 
+                                    marginRight: "15px", 
+                                  }}
+                                />
+                              )}
+
+                              {/* Contenido de texto */}
+                              <div style={{ flex: 1 }}>
+                                {/* Titulo con enlace */}
+                                <a
+                                  href={result.link?.raw || result.link || "#"}
+                                  style={{
+                                    textDecoration: "none", // Quita el subrayado
+                                    color: "#0073e6",
+                                    fontSize: "18px",
+                                    fontWeight: "bold",
+                                    display: "block",
+                                    marginBottom: "8px",
+                                  }}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {result.title?.raw || "Sin título"}
+                                </a>
+
+                                {/* Autor */}
+                                <p style={{ margin: "5px 0", fontSize: "14px", color: "#555" }}>
+                                  <strong>Autor:</strong> {result.author?.raw || "Autor desconocido"}
+                                </p>
+
+                                {/* Categoria */}
+                                <p style={{ margin: "5px 0", fontSize: "14px", color: "#555" }}>
+                                  <strong>Categoría:</strong>{" "}
+                                  {result.category?.raw
+                                    ? Array.isArray(result.category.raw)
+                                      ? result.category.raw.join(", ")
+                                      : result.category.raw 
+                                    : "Categoría no disponible"}
+                                </p>
+
+                                {/* Sinopsis */}
+                                <p style={{ margin: "5px 0", fontSize: "14px", color: "#555" }}>
+                                  {result.synopsis?.raw || "Sinopsis no disponible"}
+                                </p>
+                              </div>
                             </div>
                           ))}
                         </div>

@@ -2,8 +2,8 @@
 
 ## Lanzar o Scrapy
 
-1. Crear un venv: Depende do sistema operativo, en UNIX con `python -mvenv .`
-2. Hacer `pip install scrapy`
+1. Crear un venv: Depende do sistema operativo, en UNIX con `python -m venv .`
+2. Hacer `pip install -r requirements.txt`
 3. Dende a carpeta de **proyecto_editorial** executar scrapy: `scrapy crawl planeta`.
 
 Isto xera un ficheiro output.json (está dispoñible unha versión de exemplo en **proyecto_editorial/practica/data**). Este ficheiro cópiase ao cartafol  **proyecto_editorial/elastic**.´
